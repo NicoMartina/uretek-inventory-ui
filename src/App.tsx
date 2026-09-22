@@ -9,6 +9,10 @@ function App() {
   }, []);
   const isoTank = items.find((item: any) => item.name === "ISO Tank A");
   const resinaTank = items.find((item: any) => item.name === "Resina Tank B");
+
+  const lowStockItems = items.filter(
+    (item: any) => item.current_stock < item.minimum_stock
+  );
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -24,7 +28,13 @@ function App() {
         <div>
           <h2 className="text-2xl font-bold  text-gray-800 mb-6">Dashboard</h2>
           <div className="grid grid-cols-3 gap-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <div
+              className={`bg-white  rounded-2xl p-6 shadow-sm ${
+                isoTank?.current_stock < isoTank?.minimum_stock
+                  ? "border-l-4 border-red-500"
+                  : ""
+              }`}
+            >
               <p className="text-gray-400 text-sm uppercase font-bold">
                 ISO Tank
               </p>
@@ -40,6 +50,14 @@ function App() {
               <p className="text-4xl font-black mt-2">
                 {" "}
                 {resinaTank?.current_stock}
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 shadow-sm  border-l-4 border-red-500">
+              <p className="text-gray-400 text-sm uppercase font-bold">
+                Low Stock Alert
+              </p>
+              <p className="text-4xl font-black mt-2 text-red-500">
+                {lowStockItems.length}
               </p>
             </div>
           </div>
