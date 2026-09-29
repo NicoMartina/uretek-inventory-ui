@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
+import type { Item, Job } from "./types";
 function App() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<Item[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
 
   useEffect(() => {
     fetch("http://localhost:3000/items")
       .then((res) => res.json())
       .then((data) => setItems(data));
+    fetch("http://localhost:3000/jobs")
+      .then((res) => res.json())
+      .then((data) => setJobs(data));
   }, []);
-  const isoTank = items.find((item: any) => item.name === "ISO Tank A");
-  const resinaTank = items.find((item: any) => item.name === "Resina Tank B");
+
+  const isoTank = items.find((item: Item) => item.name === "ISO Tank A");
+  const resinaTank = items.find((item: Item) => item.name === "Resina Tank B");
 
   const lowStockItems = items.filter(
-    (item: any) => item.current_stock < item.minimum_stock
+    (item: Item) => item.current_stock < item.minimum_stock
   );
   return (
     <div className="flex h-screen bg-gray-100">
@@ -60,6 +66,84 @@ function App() {
                 {lowStockItems.length}
               </p>
             </div>
+          </div>
+        </div>
+        <div className="mt-8">
+          <h3 className="text-lg font-bold text-gray-800 mb-4">All Items</h3>
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Name
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Category
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Stock
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Unit
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Min Stock
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item: Item) => (
+                  <tr
+                    key={item.id}
+                    className={`border-t ${
+                      item.current_stock < item.minimum_stock
+                        ? "bg-red-50 text-red-700"
+                        : ""
+                    }`}
+                  >
+                    <td className="p-4">{item.name}</td>
+                    <td className="p-4">{item.category}</td>
+                    <td className="p-4 font-bold">
+                      {item.current_stock} {item.unit}
+                    </td>
+                    <td className="p-4">{item.unit}</td>
+                    <td className="p-4">{item.minimum_stock}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          <h3 className="text-lg font-bold text-gray-800 mb-4">All Jobs</h3>
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Presupuesto #
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Date
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Notes
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {jobs.map((job: Job) => (
+                  <tr key={job.id} className={"border-t"}>
+                    <td className="p-4">{job.presupuesto_number}</td>
+                    <td className="p-4">
+                      {new Date(job.job_date).toLocaleDateString()}
+                    </td>
+                    <td className="p-4 font-bold">{job.notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
