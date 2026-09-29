@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Item, Job } from "./types";
+import JobForm from "./components/JobForm";
+
 function App() {
   const [items, setItems] = useState<Item[]>([]);
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -114,6 +116,18 @@ function App() {
             </table>
           </div>
         </div>
+
+        <JobForm
+          items={items}
+          onSubmit={() => {
+            fetch("http://localhost:3000/jobs")
+              .then((res) => res.json())
+              .then((data) => setJobs(data));
+            fetch("http://localhost:3000/items")
+              .then((res) => res.json())
+              .then((data) => setItems(data));
+          }}
+        />
 
         <div className="mt-8">
           <h3 className="text-lg font-bold text-gray-800 mb-4">All Jobs</h3>
