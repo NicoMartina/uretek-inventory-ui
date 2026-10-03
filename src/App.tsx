@@ -7,10 +7,10 @@ function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/items")
+    fetch("http://localhost:8080/api/items")
       .then((res) => res.json())
       .then((data) => setItems(data));
-    fetch("http://localhost:3000/jobs")
+    fetch("http://localhost:8080/api/jobs")
       .then((res) => res.json())
       .then((data) => setJobs(data));
   }, []);
@@ -19,7 +19,7 @@ function App() {
   const resinaTank = items.find((item: Item) => item.name === "Resina Tank B");
 
   const lowStockItems = items.filter(
-    (item: Item) => item.current_stock < item.minimum_stock
+    (item: Item) => item.currentStock < item.minimumStock
   );
   return (
     <div className="flex h-screen bg-gray-100">
@@ -38,7 +38,7 @@ function App() {
           <div className="grid grid-cols-3 gap-6">
             <div
               className={`bg-white  rounded-2xl p-6 shadow-sm ${
-                isoTank?.current_stock < isoTank?.minimum_stock
+                isoTank?.currentStock < isoTank?.minimumStock
                   ? "border-l-4 border-red-500"
                   : ""
               }`}
@@ -48,7 +48,7 @@ function App() {
               </p>
               <p className="text-4xl font-black mt-2">
                 {" "}
-                {isoTank?.current_stock}
+                {isoTank?.currentStock}
               </p>
             </div>
             <div className="bg-white rounded-2xl p-6 shadow-sm">
@@ -57,7 +57,7 @@ function App() {
               </p>
               <p className="text-4xl font-black mt-2">
                 {" "}
-                {resinaTank?.current_stock}
+                {resinaTank?.currentStock}
               </p>
             </div>
             <div className="bg-white rounded-2xl p-6 shadow-sm  border-l-4 border-red-500">
@@ -98,7 +98,7 @@ function App() {
                   <tr
                     key={item.id}
                     className={`border-t ${
-                      item.current_stock < item.minimum_stock
+                      item.currentStock < item.minimumStock
                         ? "bg-red-50 text-red-700"
                         : ""
                     }`}
@@ -106,10 +106,10 @@ function App() {
                     <td className="p-4">{item.name}</td>
                     <td className="p-4">{item.category}</td>
                     <td className="p-4 font-bold">
-                      {item.current_stock} {item.unit}
+                      {item.currentStock} {item.unit}
                     </td>
                     <td className="p-4">{item.unit}</td>
-                    <td className="p-4">{item.minimum_stock}</td>
+                    <td className="p-4">{item.minimumStock}</td>
                   </tr>
                 ))}
               </tbody>
@@ -120,10 +120,10 @@ function App() {
         <JobForm
           items={items}
           onSubmit={() => {
-            fetch("http://localhost:3000/jobs")
+            fetch("http://localhost:8080/api/jobs")
               .then((res) => res.json())
               .then((data) => setJobs(data));
-            fetch("http://localhost:3000/items")
+            fetch("http://localhost:8080/api/items")
               .then((res) => res.json())
               .then((data) => setItems(data));
           }}
@@ -149,9 +149,9 @@ function App() {
               <tbody>
                 {jobs.map((job: Job) => (
                   <tr key={job.id} className={"border-t"}>
-                    <td className="p-4">{job.presupuesto_number}</td>
+                    <td className="p-4">{job.presupuestoNumber}</td>
                     <td className="p-4">
-                      {new Date(job.job_date).toLocaleDateString()}
+                      {new Date(job.jobDate).toLocaleDateString()}
                     </td>
                     <td className="p-4 font-bold">{job.notes}</td>
                   </tr>

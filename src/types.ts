@@ -3,15 +3,15 @@ export interface Item {
   name: string;
   category: string;
   unit: string;
-  current_stock: number;
-  minimum_stock: number;
-  created_at: string;
+  currentStock: number;
+  minimumStock: number;
+  createdAt: string;
 }
 
 export interface Job {
   id: string;
-  presupuesto_number: string;
-  job_date: string;
+  presupuestoNumber: string;
+  jobDate: string;
   notes: string;
-  created_at: string;
+  createdAt: string;
 }

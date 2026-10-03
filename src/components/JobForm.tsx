@@ -27,7 +27,7 @@ export default function JobForm({ items, onSubmit }: JobFormProps) {
       { item_id: isoItem?.id, quantity_used: mixTotal * 0.63 },
       { item_id: resinaItem?.id, quantity_used: mixTotal * 0.37 },
     ];
-    await fetch("http://localhost:3000/jobs", {
+    await fetch("http://localhost:8080/api/jobs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
