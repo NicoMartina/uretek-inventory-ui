@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Item, Job } from "./types";
 import JobForm from "./components/JobForm";
+import RestockForm from "./components/RestockForm";
 
 function App() {
   const [items, setItems] = useState<Item[]>([]);
@@ -128,9 +129,17 @@ function App() {
               .then((data) => setItems(data));
           }}
         />
+        <RestockForm
+          items={items}
+          onSubmit={() => {
+            fetch("http://localhost:8080/api/items")
+              .then((res) => res.json())
+              .then((data) => setItems(data));
+          }}
+        />
 
         <div className="mt-8">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">All Jobs</h3>
+          <h3 className="text-lg font-bold text-gray-800 mb-4">Trabajos</h3>
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <table className="w-full">
               <thead className="bg-gray-50">
@@ -139,10 +148,19 @@ function App() {
                     Presupuesto #
                   </th>
                   <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
-                    Date
+                    Fecha
                   </th>
                   <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
-                    Notes
+                    Notas
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Mix Total
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    ISO
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Resina
                   </th>
                 </tr>
               </thead>
@@ -154,6 +172,9 @@ function App() {
                       {new Date(job.jobDate).toLocaleDateString()}
                     </td>
                     <td className="p-4 font-bold">{job.notes}</td>
+                    <td className="p-4 font-bold">{job.mixTotal}</td>
+                    <td className="p-4 font-bold">{job.mixTotal * 0.63}</td>
+                    <td className="p-4 font-bold">{job.mixTotal * 0.37}</td>
                   </tr>
                 ))}
               </tbody>
