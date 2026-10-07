@@ -10,9 +10,6 @@ export default function JobForm({ items, onSubmit }: JobFormProps) {
   const [presupuestoNumber, setPresupuestoNumber] = useState("");
   const [jobDate, setJobDate] = useState("");
   const [notes, setNotes] = useState("");
-  const [materialUsed, setMaterialUsed] = useState<
-    { item_id: string; quantity_used: number }[]
-  >([]);
   const [mixTotal, setMixTotal] = useState<number>(0);
 
   const handleSubmit = async () => {

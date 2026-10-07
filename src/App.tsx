@@ -8,16 +8,16 @@ function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/items")
+    fetch("https://uretek-inventory-spring-production.up.railway.app/api/items")
       .then((res) => res.json())
       .then((data) => setItems(data));
-    fetch("http://localhost:8080/api/jobs")
+    fetch("https://uretek-inventory-spring-production.up.railway.app/api/jobs")
       .then((res) => res.json())
       .then((data) => setJobs(data));
   }, []);
 
-  const isoTank = items.find((item: Item) => item.name === "ISO Tank A");
-  const resinaTank = items.find((item: Item) => item.name === "Resina Tank B");
+  const isoTank = items.find((item: Item) => item.name === "ISO");
+  const resinaTank = items.find((item: Item) => item.name === "Resina");
 
   const [showJobForm, setShowJobForm] = useState(false);
   const [showrestockForm, setShowRestockForm] = useState(false);
@@ -58,7 +58,7 @@ function App() {
           <div className="grid grid-cols-3 gap-6">
             <div
               className={`bg-white  rounded-2xl p-6 shadow-md border border-slate-100${
-                isoTank?.currentStock < isoTank?.minimumStock
+                isoTank && isoTank.currentStock < isoTank.minimumStock
                   ? "border-l-4 border-l-red-500"
                   : ""
               }`}
@@ -108,12 +108,12 @@ function App() {
                 items={items}
                 onSubmit={() => {
                   fetch(
-                    "uretek-inventory-spring-production.up.railway.app/api/items"
+                    "https://uretek-inventory-spring-production.up.railway.app/api/items"
                   )
                     .then((res) => res.json())
                     .then((data) => setItems(data));
                   fetch(
-                    "uretek-inventory-spring-production.up.railway.app/api/jobs"
+                    "https://uretek-inventory-spring-production.up.railway.app/api/jobs"
                   )
                     .then((res) => res.json())
                     .then((data) => setJobs(data));
@@ -137,7 +137,9 @@ function App() {
               <RestockForm
                 items={items}
                 onSubmit={() => {
-                  fetch("http://localhost:8080/api/items")
+                  fetch(
+                    "https://uretek-inventory-spring-production.up.railway.app/api/items"
+                  )
                     .then((res) => res.json())
                     .then((data) => setItems(data));
                 }}
