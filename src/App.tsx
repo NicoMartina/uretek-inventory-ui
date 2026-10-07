@@ -107,10 +107,14 @@ function App() {
               <JobForm
                 items={items}
                 onSubmit={() => {
-                  fetch("http://localhost:8080/api/items")
+                  fetch(
+                    "uretek-inventory-spring-production.up.railway.app/api/items"
+                  )
                     .then((res) => res.json())
                     .then((data) => setItems(data));
-                  fetch("https://localhost:8080/api/jobs")
+                  fetch(
+                    "uretek-inventory-spring-production.up.railway.app/api/jobs"
+                  )
                     .then((res) => res.json())
                     .then((data) => setJobs(data));
                 }}

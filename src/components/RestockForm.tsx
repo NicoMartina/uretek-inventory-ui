@@ -20,14 +20,17 @@ export default function RestockForm({ items, onSubmit }: RestockFormProps) {
       alert("Selected item not found.");
       return;
     }
-    await fetch(`http://localhost:8080/api/items/${selectedItemId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...item,
-        currentStock: item.currentStock + amount,
-      }),
-    });
+    await fetch(
+      `uretek-inventory-spring-production.up.railway.app/api/items/${selectedItemId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...item,
+          currentStock: item.currentStock + amount,
+        }),
+      }
+    );
     onSubmit();
   };
   return (
