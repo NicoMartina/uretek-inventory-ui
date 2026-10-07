@@ -24,16 +24,19 @@ export default function JobForm({ items, onSubmit }: JobFormProps) {
       { item_id: isoItem?.id, quantity_used: mixTotal * 0.63 },
       { item_id: resinaItem?.id, quantity_used: mixTotal * 0.37 },
     ];
-    await fetch("uretek-inventory-spring-production.up.railway.app/api/jobs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        presupuesto_number: presupuestoNumber,
-        job_date: jobDate,
-        notes,
-        materials_used: materials,
-      }),
-    });
+    await fetch(
+      "https://uretek-inventory-spring-production.up.railway.app/api/jobs",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          presupuesto_number: presupuestoNumber,
+          job_date: jobDate,
+          notes,
+          materials_used: materials,
+        }),
+      }
+    );
     onSubmit();
   };
 

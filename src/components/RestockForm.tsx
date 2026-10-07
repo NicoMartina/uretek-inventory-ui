@@ -21,7 +21,7 @@ export default function RestockForm({ items, onSubmit }: RestockFormProps) {
       return;
     }
     await fetch(
-      `uretek-inventory-spring-production.up.railway.app/api/items/${selectedItemId}`,
+      `https://uretek-inventory-spring-production.up.railway.app/api/items/${selectedItemId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
