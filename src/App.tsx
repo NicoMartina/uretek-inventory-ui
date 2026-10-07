@@ -19,11 +19,14 @@ function App() {
   const isoTank = items.find((item: Item) => item.name === "ISO Tank A");
   const resinaTank = items.find((item: Item) => item.name === "Resina Tank B");
 
+  const [showJobForm, setShowJobForm] = useState(false);
+  const [showrestockForm, setShowRestockForm] = useState(false);
+
   const lowStockItems = items.filter(
     (item: Item) => item.currentStock < item.minimumStock
   );
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-slate-50">
       {/* Sidebar */}
       <div className="w-64 bg-gray-900 text-white">
         <div className="p-6">
@@ -35,35 +38,53 @@ function App() {
       {/* Main content */}
       <div className="flex-1 p-8">
         <div>
-          <h2 className="text-2xl font-bold  text-gray-800 mb-6">Dashboard</h2>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-black text-slate-800">Dashboard</h2>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowJobForm(true)}
+                className="bg-orange-500 text-white px-4 py-2 rounded-xl font-bold"
+              >
+                Agregar Trabajo
+              </button>
+              <button
+                onClick={() => setShowRestockForm(true)}
+                className="bg-green-500  text-white px-4 py-2 rounded-xl font-bold"
+              >
+                Agregar Stock
+              </button>
+            </div>
+          </div>
           <div className="grid grid-cols-3 gap-6">
             <div
-              className={`bg-white  rounded-2xl p-6 shadow-sm ${
+              className={`bg-white  rounded-2xl p-6 shadow-md border border-slate-100${
                 isoTank?.currentStock < isoTank?.minimumStock
-                  ? "border-l-4 border-red-500"
+                  ? "border-l-4 border-l-red-500"
                   : ""
               }`}
             >
               <p className="text-gray-400 text-sm uppercase font-bold">
-                ISO Tank
+                Tanque ISO
               </p>
               <p className="text-4xl font-black mt-2">
                 {" "}
                 {isoTank?.currentStock}
               </p>
+              <p className="text-gray-400 text-sm mt-1">kilos en stock</p>
             </div>
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-100">
               <p className="text-gray-400 text-sm uppercase font-bold">
-                Resina Tank
+                Tanque Resina
               </p>
               <p className="text-4xl font-black mt-2">
                 {" "}
                 {resinaTank?.currentStock}
               </p>
+              <p className="text-gray-400 text-sm mt-1">kilos en stock</p>
             </div>
-            <div className="bg-white rounded-2xl p-6 shadow-sm  border-l-4 border-red-500">
+            <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-100 border-l-red-500">
               <p className="text-gray-400 text-sm uppercase font-bold">
-                Low Stock Alert
+                Stock Bajo
               </p>
               <p className="text-4xl font-black mt-2 text-red-500">
                 {lowStockItems.length}
@@ -71,6 +92,55 @@ function App() {
             </div>
           </div>
         </div>
+        {showJobForm && (
+          <div className="fixed inset-0 bg-black/50 flex items-center  justify-center z-50">
+            <div className="bg-white rounded-2xl  p-8 w-full max-w-md">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-black"> Ingresar Trabajo</h3>
+                <button
+                  onClick={() => setShowJobForm(false)}
+                  className="text-gray-400 text-xl "
+                >
+                  x
+                </button>
+              </div>
+              <JobForm
+                items={items}
+                onSubmit={() => {
+                  fetch("http://localhost:8080/api/items")
+                    .then((res) => res.json())
+                    .then((data) => setItems(data));
+                  fetch("https://localhost:8080/api/jobs")
+                    .then((res) => res.json())
+                    .then((data) => setJobs(data));
+                }}
+              />
+            </div>
+          </div>
+        )}
+        {showrestockForm && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl p-8 w-full max-w-md">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-black"> Ingresar Stock</h3>
+                <button
+                  onClick={() => setShowRestockForm(false)}
+                  className="text-gray-400 text-xl"
+                >
+                  x
+                </button>
+              </div>
+              <RestockForm
+                items={items}
+                onSubmit={() => {
+                  fetch("http://localhost:8080/api/items")
+                    .then((res) => res.json())
+                    .then((data) => setItems(data));
+                }}
+              />
+            </div>
+          </div>
+        )}
         <div className="mt-8">
           <h3 className="text-lg font-bold text-gray-800 mb-4">All Items</h3>
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
@@ -117,26 +187,6 @@ function App() {
             </table>
           </div>
         </div>
-
-        <JobForm
-          items={items}
-          onSubmit={() => {
-            fetch("http://localhost:8080/api/jobs")
-              .then((res) => res.json())
-              .then((data) => setJobs(data));
-            fetch("http://localhost:8080/api/items")
-              .then((res) => res.json())
-              .then((data) => setItems(data));
-          }}
-        />
-        <RestockForm
-          items={items}
-          onSubmit={() => {
-            fetch("http://localhost:8080/api/items")
-              .then((res) => res.json())
-              .then((data) => setItems(data));
-          }}
-        />
 
         <div className="mt-8">
           <h3 className="text-lg font-bold text-gray-800 mb-4">Trabajos</h3>

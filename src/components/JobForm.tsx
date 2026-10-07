@@ -42,8 +42,6 @@ export default function JobForm({ items, onSubmit }: JobFormProps) {
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm">
-      <h3 className="text-lh font-bold mb-4"> Log a Job</h3>
-
       <input
         type="text"
         placeholder="Presupuesto #"

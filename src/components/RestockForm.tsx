@@ -32,8 +32,6 @@ export default function RestockForm({ items, onSubmit }: RestockFormProps) {
   };
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm">
-      <h3 className="text-lg font-bold mb-4"> Restock</h3>
-
       <select
         value={selectedItemId}
         onChange={(e) => setSelectedItemId(e.target.value)}
