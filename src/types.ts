@@ -15,4 +15,6 @@ export interface Job {
   notes: string;
   createdAt: string;
   mixTotal: number;
+  clientName: string;
+  status: string;
 }

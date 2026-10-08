@@ -105,7 +105,6 @@ function App() {
                 </button>
               </div>
               <JobForm
-                items={items}
                 onSubmit={() => {
                   fetch(
                     "https://uretek-inventory-spring-production.up.railway.app/api/items"
@@ -201,10 +200,13 @@ function App() {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
+                    Fecha
+                  </th>
+                  <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
                     Presupuesto #
                   </th>
                   <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
-                    Fecha
+                    Nombre del Cliente
                   </th>
                   <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
                     Notas
@@ -223,10 +225,11 @@ function App() {
               <tbody>
                 {jobs.map((job: Job) => (
                   <tr key={job.id} className={"border-t"}>
-                    <td className="p-4">{job.presupuestoNumber}</td>
                     <td className="p-4">
                       {new Date(job.jobDate).toLocaleDateString()}
                     </td>
+                    <td className="p-4">{job.presupuestoNumber}</td>
+                    <td className="p-4">{job.clientName}</td>
                     <td className="p-4 font-bold">{job.notes}</td>
                     <td className="p-4 font-bold">{job.mixTotal}</td>
                     <td className="p-4 font-bold">{job.mixTotal * 0.63}</td>

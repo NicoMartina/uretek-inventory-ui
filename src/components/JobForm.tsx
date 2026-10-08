@@ -1,39 +1,35 @@
-import type { Item } from "../types";
 import { useState } from "react";
 
 interface JobFormProps {
-  items: Item[];
   onSubmit: () => void;
 }
 
-export default function JobForm({ items, onSubmit }: JobFormProps) {
+export default function JobForm({ onSubmit }: JobFormProps) {
   const [presupuestoNumber, setPresupuestoNumber] = useState("");
   const [jobDate, setJobDate] = useState("");
   const [notes, setNotes] = useState("");
   const [mixTotal, setMixTotal] = useState<number>(0);
+  const [clientName, setClientName] = useState("");
+  const [status, setStatus] = useState("");
 
   const handleSubmit = async () => {
     if (!presupuestoNumber || !jobDate) {
       alert("Porfavor rellenar presupuesto y fecha de trabajo");
       return;
     }
-    const isoItem = items.find((item) => item.name === "ISO Tank A");
-    const resinaItem = items.find((item) => item.name === "Resina Tank B");
 
-    const materials = [
-      { item_id: isoItem?.id, quantity_used: mixTotal * 0.63 },
-      { item_id: resinaItem?.id, quantity_used: mixTotal * 0.37 },
-    ];
     await fetch(
       "https://uretek-inventory-spring-production.up.railway.app/api/jobs",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          presupuesto_number: presupuestoNumber,
-          job_date: jobDate,
+          presupuestoNumber,
+          jobDate,
           notes,
-          materials_used: materials,
+          mixTotal,
+          clientName,
+          status,
         }),
       }
     );
@@ -68,6 +64,21 @@ export default function JobForm({ items, onSubmit }: JobFormProps) {
         placeholder="Mix Total (kg)"
         value={mixTotal}
         onChange={(e) => setMixTotal(Number(e.target.value))}
+        className="w-full border p-2 rounded-lg mb-3"
+      />
+
+      <textarea
+        placeholder="Nombre del Cliente"
+        value={clientName}
+        onChange={(e) => setClientName(e.target.value)}
+        className="w-full border p-2 rounded-lg mb-3"
+      />
+
+      <input
+        type="text"
+        placeholder="Estado del Trabajo"
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
         className="w-full border p-2 rounded-lg mb-3"
       />
 
