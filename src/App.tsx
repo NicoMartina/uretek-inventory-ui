@@ -209,7 +209,7 @@ function App() {
                     Nombre del Cliente
                   </th>
                   <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
-                    Notas
+                    Estado del Trabajo
                   </th>
                   <th className="p-4 text-left text-xs font-bold uppercase text-gray-400">
                     Mix Total
@@ -230,10 +230,16 @@ function App() {
                     </td>
                     <td className="p-4">{job.presupuestoNumber}</td>
                     <td className="p-4">{job.clientName}</td>
-                    <td className="p-4 font-bold">{job.notes}</td>
-                    <td className="p-4 font-bold">{job.mixTotal}</td>
-                    <td className="p-4 font-bold">{job.mixTotal * 0.63}</td>
-                    <td className="p-4 font-bold">{job.mixTotal * 0.37}</td>
+                    <td className="p-4 font-bold">{job.status}</td>
+                    <td className="p-4 font-bold">
+                      {Number(job.mixTotal).toFixed(2)}
+                    </td>
+                    <td className="p-4 font-bold">
+                      {(job.mixTotal * 0.63).toFixed(2)}
+                    </td>
+                    <td className="p-4 font-bold">
+                      {(job.mixTotal * 0.37).toFixed(2)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
