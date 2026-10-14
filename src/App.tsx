@@ -236,49 +236,55 @@ function App() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {jobs.map((job: Job) => (
-                  <tr
-                    key={job.id}
-                    className="hover:bg-slate-50 transition-colors"
-                  >
-                    <td className="px-6 py-4 text-sm text-slate-600">
-                      {new Date(job.jobDate).toLocaleDateString("es-AR")}
-                    </td>
-                    <td className="px-6 py-4 text-sm font-mono font-medium text-slate-700">
-                      {job.presupuestoNumber}
-                    </td>
-                    <td className="px-6 py-4 text-sm font-medium text-slate-800">
-                      {job.clientName}
-                    </td>
-                    <td className="px-6 py-4">
-                      <select
-                        value={job.status}
-                        onChange={(e) =>
-                          handleStatusChange(job.id, e.target.value)
-                        }
-                        className={`text-xs font-bold px-2 py-1 rounded-full border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-orange-300 ${
-                          STATUS_STYLES[job.status] ??
-                          "bg-gray-100 text-gray-600"
-                        }`}
-                      >
-                        {STATUS_OPTIONS.map((s) => (
-                          <option key={s} value={s}>
-                            {s}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-right font-medium text-slate-700">
-                      {Number(job.mixTotal).toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-right text-slate-600">
-                      {(job.mixTotal * 0.63).toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-right text-slate-600">
-                      {(job.mixTotal * 0.37).toFixed(2)}
-                    </td>
-                  </tr>
-                ))}
+                {[...jobs]
+                  .sort(
+                    (a, b) =>
+                      new Date(b.jobDate).getTime() -
+                      new Date(a.jobDate).getTime()
+                  )
+                  .map((job: Job) => (
+                    <tr
+                      key={job.id}
+                      className="hover:bg-slate-50 transition-colors"
+                    >
+                      <td className="px-6 py-4 text-sm text-slate-600">
+                        {new Date(job.jobDate).toLocaleDateString("es-AR")}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-mono font-medium text-slate-700">
+                        {job.presupuestoNumber}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-medium text-slate-800">
+                        {job.clientName}
+                      </td>
+                      <td className="px-6 py-4">
+                        <select
+                          value={job.status}
+                          onChange={(e) =>
+                            handleStatusChange(job.id, e.target.value)
+                          }
+                          className={`text-xs font-bold px-2 py-1 rounded-full border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-orange-300 ${
+                            STATUS_STYLES[job.status] ??
+                            "bg-gray-100 text-gray-600"
+                          }`}
+                        >
+                          {STATUS_OPTIONS.map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-right font-medium text-slate-700">
+                        {Number(job.mixTotal).toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-right text-slate-600">
+                        {(job.mixTotal * 0.63).toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-right text-slate-600">
+                        {(job.mixTotal * 0.37).toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
