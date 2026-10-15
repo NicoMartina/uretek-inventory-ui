@@ -11,6 +11,7 @@ export default function JobForm({ onSubmit }: JobFormProps) {
   const [mixTotal, setMixTotal] = useState<number>(0);
   const [clientName, setClientName] = useState("");
   const [status, setStatus] = useState("");
+  const [quotedAmount, setQuotedAmount] = useState<number>(0);
 
   const handleSubmit = async () => {
     if (!presupuestoNumber || !jobDate) {
@@ -30,6 +31,7 @@ export default function JobForm({ onSubmit }: JobFormProps) {
           mixTotal,
           clientName,
           status,
+          quotedAmount,
         }),
       }
     );
@@ -59,9 +61,17 @@ export default function JobForm({ onSubmit }: JobFormProps) {
         onChange={(e) => setNotes(e.target.value)}
         className="w-full border p-2 rounded-lg mb-3"
       />
+
       <input
         type="number"
-        placeholder="Mix Total (kg)"
+        placeholder="Monto Presupuestado (kg)"
+        value={quotedAmount}
+        onChange={(e) => setQuotedAmount(Number(e.target.value))}
+        className="w-full border p-2 rounded-lg mb-3"
+      />
+      <input
+        type="number"
+        placeholder="Monto Usado (kg)"
         value={mixTotal}
         onChange={(e) => setMixTotal(Number(e.target.value))}
         className="w-full border p-2 rounded-lg mb-3"

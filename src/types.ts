@@ -17,4 +17,5 @@ export interface Job {
   mixTotal: number;
   clientName: string;
   status: string;
+  quotedAmount: number;
 }
