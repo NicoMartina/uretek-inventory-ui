@@ -38,6 +38,14 @@ function App() {
   const resinaTank = items.find((i) => i.name === "Resina");
   const lowStockItems = items.filter((i) => i.currentStock < i.minimumStock);
 
+  const totalGain = jobs
+    .filter((j) => (j.quotedAmount ?? 0) > j.mixTotal)
+    .reduce((sum, j) => sum + ((j.quotedAmount ?? 0) - j.mixTotal), 0);
+
+  const totalLoss = jobs
+    .filter((j) => (j.quotedAmount ?? 0) < j.mixTotal)
+    .reduce((sum, j) => sum + (j.mixTotal - (j.quotedAmount ?? 0)), 0);
+
   const handleStatusChange = (jobId: string, newStatus: string) => {
     const job = jobs.find((j) => j.id === jobId);
     if (!job) return;
@@ -149,7 +157,7 @@ function App() {
         </div>
 
         {/* Stock cards */}
-        <div className="grid grid-cols-3 gap-5 mb-8">
+        <div className="grid grid-cols-4 gap-5 mb-8">
           <div
             className={`bg-white rounded-2xl p-6 shadow-sm border ${
               isoTank && isoTank.currentStock < isoTank.minimumStock
@@ -198,6 +206,23 @@ function App() {
               {lowStockItems.length}
             </p>
             <p className="text-sm text-gray-400 mt-1">items bajo mínimo</p>
+          </div>
+          <div className="bg-white rounded-2xl p-6 shadow-sm border-slate-100">
+            <p className="text-xs text-gray-400 uppercase font-bold tracking-wider">
+              Presupuesto
+            </p>
+            <div className="mt-2">
+              <span className="text-2xl font-black text-green-600">
+                ↑ {totalGain.toFixed(2)}
+              </span>
+              <span className="text-xs text-gray-400 ml-1">kg ganados</span>
+            </div>
+            <div className="mt-1">
+              <span className="text-2xl font-black text-red-500">
+                ↓ {totalLoss.toFixed(2)}
+              </span>
+              <span className="text-xs text-gray-400 ml-1">kg perdidos</span>
+            </div>
           </div>
         </div>
 
