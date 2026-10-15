@@ -296,7 +296,25 @@ function App() {
                       </td>
 
                       <td className="px-6 py-4 text-sm text-right text-slate-700">
-                        {(job.mixTotal - job.quotedAmount).toFixed(2)}
+                        {(() => {
+                          const diff = (job.quotedAmount ?? 0) - job.mixTotal;
+                          const formatted = Math.abs(diff).toFixed(2);
+                          if (diff > 0)
+                            return (
+                              <span className="text-green-600">
+                                ↑ {formatted}
+                              </span>
+                            );
+                          if (diff < 0)
+                            return (
+                              <span className="text-red-600">
+                                ↓ {formatted}
+                              </span>
+                            );
+                          return (
+                            <span className="text-slate-600">{formatted}</span>
+                          );
+                        })()}
                       </td>
                       <td className="px-6 py-4">
                         <button
