@@ -19,6 +19,7 @@ function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [showJobForm, setShowJobForm] = useState(false);
   const [showRestockForm, setShowRestockForm] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<Job | undefined>(undefined);
 
   const fetchAll = () => {
     fetch(`${API}/items`)
@@ -239,6 +240,7 @@ function App() {
                   <th className="px-6 py-3 text-right text-xs font-bold uppercase text-slate-400 tracking-wider">
                     Diferencia
                   </th>
+                  <th className="px-6 py-3"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -296,6 +298,17 @@ function App() {
                       <td className="px-6 py-4 text-sm text-right text-slate-700">
                         {(job.mixTotal - job.quotedAmount).toFixed(2)}
                       </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => {
+                            setSelectedJob(job);
+                            setShowJobForm(true);
+                          }}
+                          className="text-xs text-orange-500 hover:text-orange-600 font-bold transition-colors"
+                        >
+                          Editar
+                        </button>
+                      </td>
                     </tr>
                   ))}
               </tbody>
@@ -323,6 +336,7 @@ function App() {
               onSubmit={() => {
                 fetchAll();
                 setShowJobForm(false);
+                setSelectedJob(undefined);
               }}
             />
           </div>

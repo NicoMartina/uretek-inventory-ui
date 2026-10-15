@@ -1,17 +1,23 @@
 import { useState } from "react";
+import type { Job } from "../types";
 
 interface JobFormProps {
   onSubmit: () => void;
+  job?: Job;
 }
 
-export default function JobForm({ onSubmit }: JobFormProps) {
-  const [presupuestoNumber, setPresupuestoNumber] = useState("");
-  const [jobDate, setJobDate] = useState("");
-  const [notes, setNotes] = useState("");
-  const [mixTotal, setMixTotal] = useState<number | "">("");
-  const [clientName, setClientName] = useState("");
-  const [status, setStatus] = useState("");
-  const [quotedAmount, setQuotedAmount] = useState<number | "">("");
+export default function JobForm({ onSubmit, job }: JobFormProps) {
+  const [presupuestoNumber, setPresupuestoNumber] = useState(
+    job?.presupuestoNumber ?? ""
+  );
+  const [jobDate, setJobDate] = useState(job?.jobDate ?? "");
+  const [notes, setNotes] = useState(job?.notes ?? "");
+  const [mixTotal, setMixTotal] = useState<number | "">(job?.mixTotal ?? "");
+  const [clientName, setClientName] = useState(job?.clientName ?? "");
+  const [status, setStatus] = useState(job?.status ?? "");
+  const [quotedAmount, setQuotedAmount] = useState<number | "">(
+    job?.quotedAmount ?? ""
+  );
 
   const handleSubmit = async () => {
     if (!presupuestoNumber || !jobDate) {
@@ -19,22 +25,25 @@ export default function JobForm({ onSubmit }: JobFormProps) {
       return;
     }
 
-    await fetch(
-      "https://uretek-inventory-spring-production.up.railway.app/api/jobs",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          presupuestoNumber,
-          jobDate,
-          notes,
-          mixTotal: Number(mixTotal),
-          clientName,
-          status,
-          quotedAmount: Number(quotedAmount),
-        }),
-      }
-    );
+    const url = job
+      ? `https://uretek-inventory-spring-production.up.railway.app/api/jobs/${job.id}`
+      : "https://uretek-inventory-spring-production.up.railway.app/api/jobs";
+
+    const method = job ? "PUT" : "POST";
+
+    await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        presupuestoNumber,
+        jobDate,
+        notes,
+        mixTotal: Number(mixTotal),
+        clientName,
+        status,
+        quotedAmount: Number(quotedAmount),
+      }),
+    });
     onSubmit();
   };
 
@@ -96,8 +105,7 @@ export default function JobForm({ onSubmit }: JobFormProps) {
         onClick={handleSubmit}
         className="w-full bg-orange-500 text-white py-2 rounded-lg font-bold"
       >
-        {" "}
-        Agregar
+        {job ? "Guardar" : "Agregar"}
       </button>
     </div>
   );
