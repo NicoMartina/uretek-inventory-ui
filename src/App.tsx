@@ -333,6 +333,7 @@ function App() {
               </button>
             </div>
             <JobForm
+              job={selectedJob}
               onSubmit={() => {
                 fetchAll();
                 setShowJobForm(false);
