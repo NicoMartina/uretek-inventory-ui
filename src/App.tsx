@@ -225,13 +225,19 @@ function App() {
                     Estado
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-bold uppercase text-slate-400 tracking-wider">
-                    Mix Total
+                    Producto Presupuestado
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-bold uppercase text-slate-400 tracking-wider">
+                    Producto Usado
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-bold uppercase text-slate-400 tracking-wider">
                     ISO (kg)
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-bold uppercase text-slate-400 tracking-wider">
                     Resina (kg)
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-bold uppercase text-slate-400 tracking-wider">
+                    Diferencia
                   </th>
                 </tr>
               </thead>
@@ -274,6 +280,9 @@ function App() {
                           ))}
                         </select>
                       </td>
+                      <td className="px-6 py-4 text-sm text-right fnt-medium text-slate-700">
+                        {Number(job.quotedAmount).toFixed(2)}
+                      </td>
                       <td className="px-6 py-4 text-sm text-right font-medium text-slate-700">
                         {Number(job.mixTotal).toFixed(2)}
                       </td>
@@ -282,6 +291,10 @@ function App() {
                       </td>
                       <td className="px-6 py-4 text-sm text-right text-slate-600">
                         {(job.mixTotal * 0.37).toFixed(2)}
+                      </td>
+
+                      <td className="px-6 py-4 text-sm text-right text-slate-700">
+                        {(job.mixTotal - job.quotedAmount).toFixed(2)}
                       </td>
                     </tr>
                   ))}
