@@ -8,10 +8,10 @@ export default function JobForm({ onSubmit }: JobFormProps) {
   const [presupuestoNumber, setPresupuestoNumber] = useState("");
   const [jobDate, setJobDate] = useState("");
   const [notes, setNotes] = useState("");
-  const [mixTotal, setMixTotal] = useState<number>(0);
+  const [mixTotal, setMixTotal] = useState<number | "">("");
   const [clientName, setClientName] = useState("");
   const [status, setStatus] = useState("");
-  const [quotedAmount, setQuotedAmount] = useState<number>(0);
+  const [quotedAmount, setQuotedAmount] = useState<number | "">("");
 
   const handleSubmit = async () => {
     if (!presupuestoNumber || !jobDate) {
@@ -28,10 +28,10 @@ export default function JobForm({ onSubmit }: JobFormProps) {
           presupuestoNumber,
           jobDate,
           notes,
-          mixTotal,
+          mixTotal: Number(mixTotal),
           clientName,
           status,
-          quotedAmount,
+          quotedAmount: Number(quotedAmount),
         }),
       }
     );
