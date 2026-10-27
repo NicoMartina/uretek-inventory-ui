@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import type { Item, Job } from "../types";
 import JobForm from "../components/JobForm";
 import RestockForm from "../components/RestockForm";
-import { useNavigate } from "react-router-dom";
 
 const API = "https://uretek-inventory-spring-production.up.railway.app/api";
 
@@ -21,7 +20,6 @@ function App() {
   const [showJobForm, setShowJobForm] = useState(false);
   const [showRestockForm, setShowRestockForm] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | undefined>(undefined);
-  const navegate = useNavigate();
 
   const getHeaders = () => ({
     "Content-Type": "application/json",
