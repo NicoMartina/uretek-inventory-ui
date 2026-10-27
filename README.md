@@ -51,4 +51,5 @@ https://uretek-inventory-spring-production.up.railway.app
 
 ## Screenshots
 
-![Dashboard](<img width="1713" height="883" alt="Screenshot 2026-10-27 at 4 35 17 PM" src="https://github.com/user-attachments/assets/95c7e068-ed69-4bea-bd1c-0871ebfc51ad" />l)
+![Dashboard](https://github.com/user-attachments/assets/95c7e068-ed69-4bea-bd1c-0871ebfc51ad)
+
