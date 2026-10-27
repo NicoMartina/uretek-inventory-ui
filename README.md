@@ -1,75 +1,54 @@
-# React + TypeScript + Vite
+# Uretek Inventory Tracker — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React dashboard for Uretek Argentina's internal inventory management system.
 
-Currently, two official plugins are available:
+🔗 **Live:** [uretek-inventory-ui-production.up.railway.app](https://uretek-inventory-ui-production.up.railway.app)  
+🔗 **Backend repo:** [link to your backend repo here]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## What it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Login with JWT authentication — token stored in localStorage, sent on every request
+- Dashboard shows live ISO and Resina tank levels with low-stock alerts
+- Jobs table with sortable entries, quoted vs actual product usage, and per-job status management
+- Add jobs — automatically deducts product from stock on the backend
+- Restock — log incoming inventory
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React 18** + **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **React Router v6** — protected routes, redirects unauthenticated users to /login
+- **Railway** — deployment
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Auth flow
 
+/login → POST /api/auth/login → store token → redirect to /
+Every fetch → Authorization: Bearer <token>
+No token → redirect to /login
+
+---
+
+## Running locally
+
+```bash
+git clone <repo-url>
+cd uretek-inventory-ui
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Expects the backend running at:
+https://uretek-inventory-spring-production.up.railway.app
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Screenshots
 
-```
+<img width="1713" height="883" alt="Screenshot 2026-10-27 at 4 35 17 PM" src="https://github.com/user-attachments/assets/95c7e068-ed69-4bea-bd1c-0871ebfc51ad" />
